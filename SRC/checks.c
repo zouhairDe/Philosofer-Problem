@@ -6,16 +6,16 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 00:24:11 by zouddach          #+#    #+#             */
-/*   Updated: 2024/04/28 01:17:45 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/09 18:46:38 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_check_NULL(t_cpu *cpu)
+int	ft_check_null(t_cpu *cpu)
 {
-	if (cpu->nb_philo <= 0 || cpu->time_to_die <= 0 || cpu->time_to_eat <= 0
-		|| cpu->time_to_sleep <= 0 || cpu->must_eat_nb < 0)
+	if (cpu->nb_philo < 1 || cpu->time_to_die <= 0 || cpu->time_to_eat <= 0
+		|| cpu->time_to_sleep <= 0)
 		return (-1);
 	return (0);
 }
@@ -30,10 +30,12 @@ int	ft_copy_data(int ac, char **av, t_cpu *cpu)
 		cpu->must_eat_nb = ft_atoi(av[5]);
 	else
 		cpu->must_eat_nb = -1;
-	cpu->dead = false;
-	pthread_mutex_init(&cpu->lock, NULL);
-	pthread_mutex_init(&cpu->dead_lock, NULL);
-	pthread_mutex_init(&cpu->print_lock, NULL);
+	cpu->lock = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	cpu->dead_lock = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	cpu->print_lock = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(cpu->lock, NULL);
+	pthread_mutex_init(cpu->dead_lock, NULL);
+	pthread_mutex_init(cpu->print_lock, NULL);
 	cpu->start = ft_get_time();
 	return (0);
 }

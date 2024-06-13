@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
 
 NAME = philo
 SRC_DIR = src/
@@ -30,16 +30,16 @@ $(LIBFT): $(LIBFT_DIR)
 	@make -C $<
 
 $(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
 
 $(NAME): $(OBJ)
-	@echo "$(BLUE)$(BOLD)Creating$(NAME) executable...$(RESET)"
-	$(CC) $(FLAGS) $(OBJ) -o $(NAME)
+	@echo "$(BLUE)$(BOLD)Creating executable...$(RESET)"
+	@$(CC) $(FLAGS) $(OBJ) -o $(NAME)
 	@echo "$(GREEN)$(BOLD)$(NAME)Philo Created$(RESET)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
 	@echo "$(CYAN)$(BOLD)Compiling... $<$(RESET)"
-	$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 
 # bonus: $(LIBFT) $(BONUS_OBJ_DIR) $(BONUS)
 
