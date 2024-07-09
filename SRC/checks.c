@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 00:24:11 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/09 05:38:15 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/09 08:49:21 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	ft_check_null(t_cpu *cpu)
 
 int	ft_copy_data(int ac, char **av, t_cpu *cpu)
 {
+	int	i;
+
 	cpu->nb_philo = ft_atoi(av[1]);
 	cpu->time_to_die = ft_atoi(av[2]);
 	cpu->time_to_eat = ft_atoi(av[3]);
@@ -33,7 +35,12 @@ int	ft_copy_data(int ac, char **av, t_cpu *cpu)
 	cpu->print_lock = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	cpu->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * cpu->nb_philo);
 	pthread_mutex_init(cpu->print_lock, NULL);
-	pthread_mutex_init(cpu->forks, NULL);
+	i = 0;
+	while (i < cpu->nb_philo)
+	{
+		pthread_mutex_init(&cpu->forks[i], NULL);
+		i++;
+	}
 	return (0);
 }
 

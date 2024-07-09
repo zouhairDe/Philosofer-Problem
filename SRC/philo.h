@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 23:37:20 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/09 07:24:19 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:25:24 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_cpu
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat_nb;
+	bool			dead;
 	double			start;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	*print_lock;
@@ -37,7 +38,7 @@ typedef struct s_philo
 	int				id;
 	int				eat_count;
 	long			last_eat;
-	bool			dead;
+	bool			thinking;
 	pthread_t		thread;
 	t_cpu			*cpu;
 }		t_philo;
@@ -51,5 +52,7 @@ void	data_logger(t_philo *philo, char *state);
 void    simulator(t_cpu *cpu, t_philo *philo);
 void    ft_eat(t_philo *philo);
 void	ft_usleep(int time, t_philo *philo);
-
+void    ft_think(t_philo *philo);
+void    ft_sleep(t_philo *philo);
+void    *examine(void *arg);
 #endif

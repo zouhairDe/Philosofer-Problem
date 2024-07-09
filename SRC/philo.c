@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 23:34:08 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/09 06:41:33 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/09 07:40:42 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ void	ft_init_data(t_cpu *cpu, t_philo **philo)
 	i = 0;
 	while (i < cpu->nb_philo)
 	{
+		(*philo)[i].cpu = cpu;
 		(*philo)[i].id = i + 1;
 		(*philo)[i].eat_count = 0;
 		(*philo)[i].last_eat = 0;
-		(*philo)[i].dead = false;
-		(*philo)[i].cpu = cpu;
 		(*philo)[i].thread = 0;
+		(*philo)[i].dead = false;
+		(*philo)[i].thinking = false;
 		i++;
 	}
 }
