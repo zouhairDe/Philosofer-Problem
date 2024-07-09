@@ -6,11 +6,22 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 00:40:56 by zouddach          #+#    #+#             */
-/*   Updated: 2024/04/28 00:44:14 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/09 07:26:06 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	data_logger(t_philo *philo, char *state)
+{
+	int	timestamp;
+
+	pthread_mutex_lock(philo->cpu->print_lock);
+	timestamp = ft_get_time() - philo->cpu->start;
+	printf("%d %d %s\n", timestamp, philo->id, state);
+	pthread_mutex_unlock(philo->cpu->print_lock);
+	
+}
 
 size_t	ft_strlen(const char *str)
 {
@@ -71,4 +82,20 @@ int	ft_atoi(char *str)
 		str++;
 	}
 	return (nbr);
+}
+
+void	ft_usleep(int time, t_philo *philo)
+{
+	double	start;
+	bool	dead;
+
+	start = ft_get_time();
+	while (ft_get_time() < start + time)
+	{
+		pthread_mutex_lock(philo->cpu->print_lock);
+		dead = philo->dead;
+		pthread_mutex_unlock(philo->cpu->print_lock);
+		if (dead)
+			return ;
+	}
 }

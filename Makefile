@@ -5,7 +5,7 @@ NAME = philo
 SRC_DIR = src/
 OBJ_DIR = obj/
 HEADER = $(SRC_DIR)philo.h
-FILES = philo.c checks.c time.c memory_cleaner.c utils.c learning.c
+FILES = philo.c checks.c time.c memory_cleaner.c utils.c simulator.c to_do.c
 SRC = $(addprefix $(SRC_DIR), $(FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(FILES:.c=.o))
 

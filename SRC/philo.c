@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 23:34:08 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/09 19:10:43 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/09 06:41:33 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_init_data(t_cpu *cpu, t_philo **philo)
 	i = 0;
 	while (i < cpu->nb_philo)
 	{
-		(*philo)[i].id = i;
+		(*philo)[i].id = i + 1;
 		(*philo)[i].eat_count = 0;
 		(*philo)[i].last_eat = 0;
 		(*philo)[i].dead = false;
@@ -62,6 +62,6 @@ p [number_of_times_each_philosopher_must_eat]\n");
 		return (1);
 	}
 	ft_init_data(&cpu, &philo);
-	ft_simple_functions(&cpu, philo);
+	simulator(&cpu, philo);
 	return (0);
 }
