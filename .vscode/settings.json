@@ -61,6 +61,12 @@
     "__bit_reference": "c",
     "__string": "c",
     "cstring": "c",
-    "time.h": "c"
-  }
+    "time.h": "c",
+    "unistd.h": "c",
+    "stdio.h": "c",
+    "stdbool.h": "c",
+    "stdlib.h": "c",
+    "pthread.h": "c"
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }
