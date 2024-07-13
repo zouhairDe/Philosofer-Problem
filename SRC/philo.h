@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:43:57 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/13 19:47:17 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/14 00:34:36 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int		init(t_data *data, int ac, char **av);
 int		ft_atoi(char *str);
 int		is_number(char *str);
 int		simulator(t_data *data);
+int		ft_done(t_philo *philo, int code);
 long	ft_round(double nb);
 void	init_forks(t_data *data);
 void    eat(t_philo *philo);

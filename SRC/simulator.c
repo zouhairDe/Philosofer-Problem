@@ -12,6 +12,26 @@
 
 #include "philo.h"
 
+int	eating_done(t_data *data)
+{
+	int	i;
+	int	finishers;
+
+	i = 0;
+	finishers = 0;
+	while (i < data->number)
+	{
+		pthread_mutex_lock(&data->lock);
+		if (data->philos[i].meals == data->meals)
+			finishers += 1;
+		pthread_mutex_unlock(&data->lock);
+		i++;
+	}
+	if (finishers == data->number)
+		return (0);
+	return (1);
+}
+
 void	*keep_track(void *d)
 {
 	t_data *data;
@@ -21,28 +41,22 @@ void	*keep_track(void *d)
 	i = 0;
 	while (i < data->number)
 	{
+		if (!eating_done(data))
+			ft_done(&data->philos[i], 0);
+		pthread_mutex_lock(&data->lock);
 		if (ft_round(data->philos[i].last_meal) + data->time_to_die < ft_round(get_time()))
 		{
-			pthread_mutex_lock(&data->lock);
-			printf("philo %d last meal was at %lu and he died at %lu\n", i + 1, ft_round(data->philos[i].last_meal) + data->time_to_die, ft_round(get_time()));
 			data->over = true;
 			data->philos[i].dead = true;
-			print_logs(&data->philos[i], "died");
-			exit(1);
 			pthread_mutex_unlock(&data->lock);
+			ft_done(&data->philos[i], 1);
 		}
+		pthread_mutex_unlock(&data->lock);
 		i++;
 		if (i == data->number)
 			i = 0;
 	}
 	return (NULL);
-}
-
-int	alive(t_data *data)
-{
-	if (data->over == true)
-		return (0);
-	return (1);
 }
 
 void	*routine(void *p)
@@ -52,12 +66,13 @@ void	*routine(void *p)
 	philo = (t_philo *)p;
 	if (philo->id % 2 == 0 || philo->id == philo->data->number)
 		usleep(100);
-	while(alive(philo->data))
+	while(philo->dead == false)
 	{
 		eat(philo);
 		ft_sleep(philo);
 		think(philo);
 	}
+	pthread_exit(NULL);
 	return (NULL);
 }
 
@@ -76,6 +91,7 @@ int	simulator(t_data *data)
 	}
 	if (pthread_create(&data->eye, NULL, &keep_track, data))
 		return (-1);
+	pthread_join(data->eye, NULL);
 	i = 0;
 	while (i < data->number)
 	{

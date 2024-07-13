@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 19:24:09 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/13 20:51:59 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/13 22:37:59 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	init_forks(t_data *data)
 	i = 0;
 	while (i < data->number)
 	{
-		data->philos[i].l_fork = &data->forks[data->philos[i].id];
+		data->philos[i].l_fork = &data->forks[i];
 		if (data->number - 1 == i)
 			data->philos[i].r_fork = &data->forks[0];
 		else
-			data->philos[i].r_fork = &data->forks[data->philos[i].id + 1];
+			data->philos[i].r_fork = &data->forks[i + 1];
 		i++;
 	}
 }
