@@ -35,6 +35,6 @@
 42 2 has taken a fork
 42 2 is eating
 51 4 is thinking
-51 4 has taken a fork
+51 4 has taken a fork 
 51 4 has taken a fork
 51 4 is eating
