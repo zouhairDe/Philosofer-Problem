@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 19:24:09 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 23:39:24 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/13 20:51:59 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	allocate_memory(t_data *data)
 		data->philos[i].data = data;
 		data->philos[i].id = i + 1;
 		data->philos[i].dead = false;
-		data->philos[i].last_meal = 0;
+		data->philos[i].last_meal = get_time();
 		data->philos[i].thinking = false;
 		data->philos[i].meals = 0;
 		if (pthread_mutex_init(&data->forks[i], NULL))

@@ -21,7 +21,7 @@ void	*keep_track(void *d)
 	i = 0;
 	while (i < data->number)
 	{
-		if (ft_round(data->philos[i].last_meal) + data->time_to_die > ft_round(get_time()))
+		if (ft_round(data->philos[i].last_meal) + data->time_to_die < ft_round(get_time()))
 		{
 			pthread_mutex_lock(&data->lock);
 			printf("philo %d last meal was at %lu and he died at %lu\n", i + 1, ft_round(data->philos[i].last_meal) + data->time_to_die, ft_round(get_time()));

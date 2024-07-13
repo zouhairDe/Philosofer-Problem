@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:54:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/13 20:46:15 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/13 20:52:52 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	spend_time(int duration, t_philo *philo)
 	go = get_time();
 	while (get_time() - go < (double)duration)
 	{
-		usleep(100);
+		// usleep(100);
 		pthread_mutex_lock(&philo->data->lock);
 		if (philo->data->over == true)
 			break;
