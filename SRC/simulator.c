@@ -19,18 +19,23 @@ void	*keep_track(void *d)
 
 	data = (t_data *)d;
 	i = 0;
-	while (1)
+	while (i < data->number)
 	{
-		if ((double)(data->philos[i].last_meal + data->time_to_die) > get_time())
+		if (ft_round(data->philos[i].last_meal) + data->time_to_die > ft_round(get_time()))
 		{
-			print_logs(&data->philos[i], "died");
+			pthread_mutex_lock(&data->lock);
+			printf("philo %d last meal was at %lu and he died at %lu\n", i + 1, ft_round(data->philos[i].last_meal) + data->time_to_die, ft_round(get_time()));
 			data->over = true;
 			data->philos[i].dead = true;
+			print_logs(&data->philos[i], "died");
+			exit(1);
+			pthread_mutex_unlock(&data->lock);
 		}
 		i++;
 		if (i == data->number)
 			i = 0;
 	}
+	return (NULL);
 }
 
 int	alive(t_data *data)

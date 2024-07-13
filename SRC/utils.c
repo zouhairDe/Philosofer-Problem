@@ -6,11 +6,17 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 19:25:27 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 23:01:06 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/13 19:47:11 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+long	ft_round(double nb)
+{
+	nb = nb + 0.5;
+	return ((long)nb);
+}
 
 double	get_time()
 {

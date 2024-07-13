@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:54:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 23:58:57 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/13 20:46:15 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	eat(t_philo *philo)
 {
 	if (philo->meals == philo->data->meals || philo->data->over == true)
 		return ;
+	if (philo->id % 2 == 0 || (philo->data->number % 2 == 1 && philo->id == philo->data->number))
+		usleep(100);
 	pthread_mutex_lock(philo->l_fork);
 	print_logs(philo, "has taken a fork");
 	pthread_mutex_lock(philo->r_fork);

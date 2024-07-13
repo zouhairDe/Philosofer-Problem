@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:43:57 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/11 00:17:43 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/13 19:47:17 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ struct	s_data;
 typedef struct s_philo
 {
 	int				id;
-	int				last_meal;
+	double			last_meal;
 	int				meals;
 	bool			dead;
 	bool			thinking;
@@ -55,6 +55,7 @@ int		init(t_data *data, int ac, char **av);
 int		ft_atoi(char *str);
 int		is_number(char *str);
 int		simulator(t_data *data);
+long	ft_round(double nb);
 void	init_forks(t_data *data);
 void    eat(t_philo *philo);
 void	ft_sleep(t_philo *philo);
