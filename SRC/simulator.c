@@ -42,14 +42,13 @@ void	*keep_track(void *d)
 	while (i < data->number)
 	{
 		if (!eating_done(data))
-			ft_done(&data->philos[i], 0);
+			return (ft_done(&data->philos[i], 0), NULL);
 		pthread_mutex_lock(&data->lock);
 		if (ft_round(data->philos[i].last_meal) + data->time_to_die < ft_round(get_time()))
 		{
 			data->over = true;
-			data->philos[i].dead = true;//data race hereeeee
+			data->philos[i].dead = true;
 			pthread_mutex_unlock(&data->lock);
-			ft_done(&data->philos[i], 1);
 			break ;
 		}
 		pthread_mutex_unlock(&data->lock);
@@ -57,6 +56,8 @@ void	*keep_track(void *d)
 		if (i == data->number)
 			i = 0;
 	}
+	ft_done(&data->philos[i], 1);
+	pthread_exit(NULL);
 	return (NULL);
 }
 
@@ -101,7 +102,7 @@ int	simulator(t_data *data)
 	i = 0;
 	while (i < data->number)
 	{
-		if (pthread_join(data->philos[i].t, NULL))
+		if (pthread_detach(data->philos[i].t))
 			return (-1);
 		i++;
 	}

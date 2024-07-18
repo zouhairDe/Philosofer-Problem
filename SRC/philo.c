@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:52:30 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 20:56:34 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/18 22:06:31 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,25 @@ int	ft_done(t_philo *philo, int code)
 	timestamp = get_time() - philo->data->start;
 	if (code == 1)
 		printf("%d %d died\n", timestamp, philo->id);
-	free(philo->data->forks);
-	pthread_exit(NULL);
+	else
+		pthread_exit(NULL);
 	return (0);
 }
-
+void f()
+{
+	system ("leaks philo");
+}
 int	main(int ac, char **av)
 {
 	t_data	data;
-
+atexit(f);
 	if (ac > 6 || ac < 5)
 		return (printf("Error:\nIncorrect arguments nnumber\n"));
 	if (init(&data, ac, av))
-		return (0);
+		return (1);
 	if (simulator(&data))
 		return (1);
+	free(data.forks);
 	free(data.philos);
 	return (0);
 }
