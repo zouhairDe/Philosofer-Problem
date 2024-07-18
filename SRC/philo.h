@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:43:57 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/14 00:34:36 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/18 21:11:14 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_data
 	pthread_t		eye;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	read;
+	pthread_mutex_t	over_lock;
 	pthread_mutex_t	lock;
 }	t_data;
 

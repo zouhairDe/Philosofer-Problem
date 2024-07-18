@@ -47,9 +47,10 @@ void	*keep_track(void *d)
 		if (ft_round(data->philos[i].last_meal) + data->time_to_die < ft_round(get_time()))
 		{
 			data->over = true;
-			data->philos[i].dead = true;
+			data->philos[i].dead = true;//data race hereeeee
 			pthread_mutex_unlock(&data->lock);
 			ft_done(&data->philos[i], 1);
+			break ;
 		}
 		pthread_mutex_unlock(&data->lock);
 		i++;
@@ -68,6 +69,11 @@ void	*routine(void *p)
 		usleep(100);
 	while(philo->dead == false)
 	{
+		if (philo->data->number == 1)
+		{
+			think(philo);
+			continue ;
+		}
 		eat(philo);
 		ft_sleep(philo);
 		think(philo);

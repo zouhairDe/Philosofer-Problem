@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:54:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/14 00:29:38 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/18 21:01:18 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	ft_sleep(t_philo *philo)
 {
 	if (philo->meals == philo->data->meals || philo->data->over == true)
 		return ;
+	if (philo->data->number == 1)
+		return ;
 	print_logs(philo, "is sleeping");
 	spend_time(philo->data->sleeping_time, philo);
 }
@@ -59,6 +61,8 @@ void	ft_sleep(t_philo *philo)
 void	think(t_philo *philo)
 {
 	if (philo->meals == philo->data->meals || philo->data->over == true)
+		return ;
+	if (philo->data->number == 1)
 		return ;
 	print_logs(philo, "is thinking");
 	philo->thinking = true;

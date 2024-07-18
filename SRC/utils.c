@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 19:25:27 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/13 19:47:11 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/18 21:05:48 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_atoi(char *str)
 	if (*str == '-' || *str == '+')
 	{
 		if (*str == '-')
-			sign = -1;
+			return (-2);
 		str++;
 	}
 	number = 0;

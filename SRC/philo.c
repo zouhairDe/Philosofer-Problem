@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:52:30 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/14 00:35:02 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/18 20:56:34 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_done(t_philo *philo, int code)
 
 	timestamp = get_time() - philo->data->start;
 	if (code == 1)
-		printf("%.d %d died\n", timestamp, philo->id);
+		printf("%d %d died\n", timestamp, philo->id);
 	free(philo->data->forks);
 	pthread_exit(NULL);
 	return (0);
@@ -34,6 +34,7 @@ int	main(int ac, char **av)
 		return (0);
 	if (simulator(&data))
 		return (1);
+	free(data.philos);
 	return (0);
 }
 	

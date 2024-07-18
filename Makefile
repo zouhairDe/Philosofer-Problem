@@ -9,14 +9,6 @@ FILES = philo.c init.c utils.c simulator.c routine.c
 SRC = $(addprefix $(SRC_DIR), $(FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(FILES:.c=.o))
 
-# BONUS = minishell_bonus
-# BONUS_SRC_DIR = bonus/src/
-# BONUS_OBJ_DIR = bonus/obj/
-# BONUS_HEADER = $(BONUS_SRC_DIR)minishell_bonus.h
-# BONUS_FILES = 
-# BONUS_SRC = $(addprefix $(BONUS_SRC_DIR), $(BONUS_FILES))
-# BONUS_OBJ = $(addprefix $(BONUS_OBJ_DIR), $(BONUS_FILES:.c=.o))
-
 RED = \033[0;31m
 GREEN = \033[0;32m
 CYAN = \033[0;36m
@@ -38,22 +30,7 @@ $(NAME): $(OBJ)
 	@echo "$(GREEN)$(BOLD)$(NAME)Philo Created$(RESET)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
-	@echo "$(CYAN)$(BOLD)Compiling... $<$(RESET)"
 	@$(CC) $(FLAGS) -c $< -o $@
-
-# bonus: $(LIBFT) $(BONUS_OBJ_DIR) $(BONUS)
-
-# $(BONUS_OBJ_DIR):
-# 	mkdir -p $(BONUS_OBJ_DIR)
-
-# $(BONUS): $(BONUS_OBJ)
-# 	@echo "$(BLUE)$(BOLD)Creating $(BONUS) executable...$(RESET)"
-# 	$(CC) $(FLAGS) $(BONUS_OBJ) $(LIBFT) $(GNL) -o $(BONUS)
-# 	@echo "$(GREEN)$(BOLD)$(BONUS) created$(RESET)"
-
-# $(BONUS_OBJ_DIR)%.o: $(BONUS_SRC_DIR)%.c $(BONUS_HEADER) $(GNL_HEADER)
-# 	@echo "$(CYAN)$(BOLD)Compiling $<$(RESET)"
-# 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
 	@rm -f $(OBJ)

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 19:24:09 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/13 22:37:59 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/18 21:13:17 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int	allocate_memory(t_data *data)
 	if (!data->forks)
 		return (-1);
 	data->philos = (t_philo *)malloc(data->number * sizeof(t_philo));
-	if (!data->forks)
-		return (-1);
+	if (!data->philos)
+		return (free(data->forks), -1);
 	while (++i < data->number)
 	{
 		data->philos[i].data = data;
