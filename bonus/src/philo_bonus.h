@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:43:57 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/19 13:51:43 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:20:05 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,15 @@ typedef struct s_data
 	sem_t       	dead;
 }	t_data;
 
+double	get_time();
+long	ft_round(double nb);
 int		init(t_data *data, int ac, char **av);
 int		ft_atoi(char *str);
 int		is_number(char *str);
 int		simulator(t_data *data);
-
+void	log(t_philo *philo, char *str);
+void	eat(t_philo *philo);
+void	ft_sleep(t_philo *philo);
+void	think(t_philo *philo);
+void	spend_time(int time);
 #endif

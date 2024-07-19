@@ -6,16 +6,26 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:47:45 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/19 13:50:23 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:33:38 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+void kill_all(t_data *data)
+{
+    int i;
+
+    i = -1;
+    while (++i < data->number)
+        kill(data->philos[i].pid, SIGKILL);
+}
+
 void f()
 {
 	system ("leaks philo");
 }
+
 int	main(int ac, char **av)
 {
 	t_data	data;

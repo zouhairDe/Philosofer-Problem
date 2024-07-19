@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 13:48:16 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/19 13:50:53 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:08:14 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int    init_sem(t_data *data)
     data->dead = sem_open("dead", O_CREAT, 0644, 0);
     if (data->forks == SEM_FAILED || data->read == SEM_FAILED
         || data->lock == SEM_FAILED || data->dead == SEM_FAILED)
-        return (printf("Error\nSemaphores failed\n"), 1);
+        return (printf("Error\nSemaphores failed\n"), -1);
     return (0);
 }
 
@@ -35,7 +35,7 @@ int	Initializer(t_data *data)
 	i = -1;
 	data->philos = (t_philo *)malloc(data->number * sizeof(t_philo));
 	if (!data->philos)
-		return (free(data->forks), -1);
+		return (-1);
 	while (++i < data->number)
 	{
 		data->philos[i].data = data;
@@ -45,8 +45,6 @@ int	Initializer(t_data *data)
 		data->philos[i].thinking = false;
 		data->philos[i].meals = 0;
 	}
-	if (init_sem(data))
-		return (-1);
 	return (0);
 }
 
@@ -72,5 +70,7 @@ int	init(t_data *data, int ac, char **av)
 		return (printf("Error\nAn argument is not valid\n"));
 	if (Initializer(data))
 		return (printf("Error\nInitializer faild\n"));
+	if (init_sem(data))
+		return (-1);
 	return (0);
 }
