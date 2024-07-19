@@ -8,6 +8,16 @@ FILES = philo.c init.c utils.c simulator.c routine.c
 SRC = $(addprefix $(SRC_DIR), $(FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(FILES:.c=.o))
 
+
+NAME = philo_bonus
+SRC_DIR = bonus/src/
+OBJ_DIR = bonus/obj/
+HEADER = $(SRC_DIR)philo_bonus.h
+FILES = philo_bonus.c init_bonus.c utils_bonus.c simulator_bonus.c routine_bonus.c
+SRC = $(addprefix $(SRC_DIR), $(FILES))
+OBJ = $(addprefix $(OBJ_DIR), $(FILES:.c=.o))
+
+
 RED = \033[0;31m
 GREEN = \033[0;32m
 CYAN = \033[0;36m
