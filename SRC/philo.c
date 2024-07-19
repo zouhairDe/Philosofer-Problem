@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:52:30 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 22:06:31 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:57:43 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void f()
 int	main(int ac, char **av)
 {
 	t_data	data;
-atexit(f);
+// atexit(f);
 	if (ac > 6 || ac < 5)
 		return (printf("Error:\nIncorrect arguments nnumber\n"));
 	if (init(&data, ac, av))
