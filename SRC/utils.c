@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 19:25:27 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 21:05:48 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/20 23:24:38 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ long	ft_round(double nb)
 	return ((long)nb);
 }
 
-double	get_time()
+double	get_time(void)
 {
 	struct timeval	counter;
 

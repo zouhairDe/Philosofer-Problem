@@ -34,7 +34,7 @@ int	eating_done(t_data *data)
 
 void	*keep_track(void *d)
 {
-	t_data *data;
+	t_data	*data;
 	int		i;
 
 	data = (t_data *)d;
@@ -44,7 +44,8 @@ void	*keep_track(void *d)
 		if (!eating_done(data))
 			return (ft_done(&data->philos[i], 0), NULL);
 		pthread_mutex_lock(&data->lock);
-		if (ft_round(data->philos[i].last_meal) + data->time_to_die < ft_round(get_time()) && data->philos[i].eating == false)
+		if (ft_round(data->philos[i].last_meal) + data->time_to_die
+			< ft_round(get_time()) && data->philos[i].eating == false)
 		{
 			data->over = true;
 			data->philos[i].dead = true;
@@ -64,9 +65,10 @@ void	*routine(void *p)
 	t_philo	*philo;
 
 	philo = (t_philo *)p;
-	if (philo->id % 2 == 0 || (philo->id == philo->data->number && philo->data->number % 2))
+	if (philo->id % 2 == 0 || (philo->id == philo->data->number
+			&& philo->data->number % 2))
 		usleep(100);
-	while(philo->dead == false)
+	while (philo->dead == false)
 	{
 		if (philo->data->number == 1)
 		{
@@ -90,7 +92,8 @@ int	simulator(t_data *data)
 	data->start = get_time();
 	while (i < data->number)
 	{
-		if (pthread_create(&data->philos[i].t, NULL, &routine, &data->philos[i]))
+		if (pthread_create(&data->philos[i].t, NULL,
+				&routine, &data->philos[i]))
 			return (-1);
 		i++;
 	}

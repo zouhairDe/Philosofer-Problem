@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:43:57 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/20 20:46:58 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/20 23:21:14 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		simulator(t_data *data);
 int		ft_done(t_philo *philo, int code);
 long	ft_round(double nb);
 void	init_forks(t_data *data);
-void    eat(t_philo *philo);
+void	eat(t_philo *philo);
 void	ft_sleep(t_philo *philo);
 void	think(t_philo *philo);
 void	print_logs(t_philo *philo, char *did);
