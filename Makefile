@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror #-g -fsanitize=thread
 NAME = philo
 SRC_DIR = src/
 OBJ_DIR = obj/
@@ -33,7 +33,7 @@ clean:
 	@echo "$(RED)$(BOLD)Object files removed$(RESET)"
 
 fclean: clean
-	@rm -f $(NAME) $(BONUS)
+	@rm -rf $(NAME) $(BONUS) $(OBJ_DIR) $(BONUS_OBJ_DIR)
 	@echo "$(RED)$(BOLD)$(NAME)Executable removed$(RESET)"
 
 re: fclean all

@@ -39,12 +39,12 @@ void	*keep_track(void *d)
 
 	data = (t_data *)d;
 	i = 0;
-	while (i < data->number)
+	while (1)
 	{
 		if (!eating_done(data))
 			return (ft_done(&data->philos[i], 0), NULL);
 		pthread_mutex_lock(&data->lock);
-		if (ft_round(data->philos[i].last_meal) + data->time_to_die < ft_round(get_time()))
+		if (ft_round(data->philos[i].last_meal) + data->time_to_die < ft_round(get_time()) && data->philos[i].eating == false)
 		{
 			data->over = true;
 			data->philos[i].dead = true;
@@ -56,9 +56,7 @@ void	*keep_track(void *d)
 		if (i == data->number)
 			i = 0;
 	}
-	ft_done(&data->philos[i], 1);
-	pthread_exit(NULL);
-	return (NULL);
+	return (ft_done(&data->philos[i], 1), pthread_exit(NULL), NULL);
 }
 
 void	*routine(void *p)
@@ -66,7 +64,7 @@ void	*routine(void *p)
 	t_philo	*philo;
 
 	philo = (t_philo *)p;
-	if (philo->id % 2 == 0 || philo->id == philo->data->number)
+	if (philo->id % 2 == 0 || (philo->id == philo->data->number && philo->data->number % 2))
 		usleep(100);
 	while(philo->dead == false)
 	{

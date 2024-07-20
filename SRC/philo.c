@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:52:30 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/19 15:57:43 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/20 21:07:50 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,11 @@ int	ft_done(t_philo *philo, int code)
 		pthread_exit(NULL);
 	return (0);
 }
-void f()
-{
-	system ("leaks philo");
-}
+
 int	main(int ac, char **av)
 {
 	t_data	data;
-// atexit(f);
+
 	if (ac > 6 || ac < 5)
 		return (printf("Error:\nIncorrect arguments nnumber\n"));
 	if (init(&data, ac, av))

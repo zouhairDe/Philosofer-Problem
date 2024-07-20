@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:43:57 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 21:11:14 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/20 20:46:58 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ struct	s_data;
 typedef struct s_philo
 {
 	int				id;
-	double			last_meal;
+	long			last_meal;
 	int				meals;
 	bool			dead;
-	bool			thinking;
+	bool			eating;
 	pthread_t		t;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
@@ -42,13 +42,12 @@ typedef struct s_data
 	int				sleeping_time;
 	int				time_to_die;
 	int				meals;
-	double			start;
+	long			start;
 	bool			over;
 	t_philo			*philos;
 	pthread_t		eye;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	read;
-	pthread_mutex_t	over_lock;
 	pthread_mutex_t	lock;
 }	t_data;
 

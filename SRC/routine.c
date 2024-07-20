@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:54:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 21:01:18 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/20 20:52:18 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ void	ft_sleep(t_philo *philo)
 		return ;
 	if (philo->data->number == 1)
 		return ;
+    pthread_mutex_lock(&philo->data->lock);
+    philo->eating = false;
+    pthread_mutex_unlock(&philo->data->lock);
 	print_logs(philo, "is sleeping");
 	spend_time(philo->data->sleeping_time, philo);
 }
@@ -65,7 +68,6 @@ void	think(t_philo *philo)
 	if (philo->data->number == 1)
 		return ;
 	print_logs(philo, "is thinking");
-	philo->thinking = true;
 }
 
 void	eat(t_philo *philo)
@@ -85,13 +87,13 @@ void	eat(t_philo *philo)
 	print_logs(philo, "has taken a fork");
 	pthread_mutex_lock(philo->r_fork);
 	print_logs(philo, "has taken a fork");
-	philo->thinking = false;
 	print_logs(philo, "is eating");
-	spend_time(philo->data->eating_time, philo);
 	pthread_mutex_lock(&philo->data->lock);
-	philo->last_meal = get_time();
-	philo->meals += 1;
+    philo->eating = true;
+	philo->last_meal = ft_round(get_time());
+	philo->meals++;
 	pthread_mutex_unlock(&philo->data->lock);
+	spend_time(philo->data->eating_time, philo);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
 }
