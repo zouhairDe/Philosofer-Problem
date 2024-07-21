@@ -1,13 +1,3 @@
-CC = cc
-FLAGS = -Wall -Wextra -Werror# -g -fsanitize=thread
-NAME = philo
-SRC_DIR = src/
-OBJ_DIR = obj/
-HEADER = $(SRC_DIR)philo.h
-FILES = philo.c init.c utils.c simulator.c routine.c
-SRC = $(addprefix $(SRC_DIR), $(FILES))
-OBJ = $(addprefix $(OBJ_DIR), $(FILES:.c=.o))
-
 RED = \033[0;31m
 GREEN = \033[0;32m
 CYAN = \033[0;36m
@@ -15,26 +5,34 @@ BLUE = \033[0;34m
 BOLD = \033[1m
 RESET = \033[0m
 
-all: $(OBJ_DIR) $(NAME)
+CC=CC
+FLAGS=-Wall -Werror -Wextra -g -fsanitize=address#-lpthread
 
-$(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR)
+NAME=philos
+SRC_FOLDER=philo/src/
+OBJ_FOLDER=philo/obj/
+HEADER=$(SRC_FOLDER)/../philo.h
+FILES= philo.c utils.c init.c simulator.c routine.c
+SRC=$(addprefix $(SRC_FOLDER), $(FILES))
+OBJ=$(addprefix $(OBJ_FOLDER), $(FILES:.c=.o))	
+
+all: $(OBJ_FOLDER) $(NAME)
+
+$(OBJ_FOLDER):
+	@mkdir -p $(OBJ_FOLDER)
 
 $(NAME): $(OBJ)
-	@echo "$(BLUE)$(BOLD)Creating executable...$(RESET)"
-	@$(CC) $(FLAGS) $(OBJ) -o $(NAME)
-	@echo "$(GREEN)$(BOLD)$(NAME) Created$(RESET)"
+	@$(CC) $(FLAGS) -o $(NAME) $(OBJ)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
+
+$(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.c $(HEADER)
 	@$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	@rm -f $(OBJ) $(BONUS_OBJ)
-	@echo "$(RED)$(BOLD)Object files removed$(RESET)"
+	@rm -rf $(OBJ_FOLDER)
 
 fclean: clean
-	@rm -rf $(NAME) $(BONUS) $(OBJ_DIR) $(BONUS_OBJ_DIR)
-	@echo "$(RED)$(BOLD)$(NAME)Executable removed$(RESET)"
+	@rm -f $(NAME)
 
 re: fclean all
 

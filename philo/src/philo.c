@@ -6,11 +6,11 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:52:30 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/21 01:18:14 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/21 05:46:51 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 // int	ft_done(t_philo *philo, int code)
 // {
