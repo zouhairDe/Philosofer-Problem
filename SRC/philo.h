@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:43:57 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/20 23:21:14 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/21 01:19:43 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ typedef struct s_data
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	read;
 	pthread_mutex_t	lock;
+	pthread_mutex_t	end;
 }	t_data;
 
 int		init(t_data *data, int ac, char **av);
 int		ft_atoi(char *str);
 int		is_number(char *str);
 int		simulator(t_data *data);
-int		ft_done(t_philo *philo, int code);
+// int		ft_done(t_philo *philo, int code);
 long	ft_round(double nb);
 void	init_forks(t_data *data);
 void	eat(t_philo *philo);

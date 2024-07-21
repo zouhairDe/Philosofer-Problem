@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 19:24:09 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/20 20:47:10 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/21 01:04:46 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	allocate_memory(t_data *data)
 			return (-1);
 	}
 	if (pthread_mutex_init(&data->read, NULL)
-		|| pthread_mutex_init(&data->lock, NULL))
+		|| pthread_mutex_init(&data->lock, NULL)
+		|| pthread_mutex_init(&data->end, NULL))
 		return (-1);
 	return (0);
 }
@@ -73,9 +74,9 @@ int	init(t_data *data, int ac, char **av)
 	data->over = false;
 	if (ac == 6)
 		data->meals = ft_atoi(av[5]);
-	if (data->meals == -2 || data->eating_time < 0
-		|| data->number < 0 || data->time_to_die < 0
-		|| data->sleeping_time < 0)
+	if (data->meals == -2 || data->eating_time <= 0
+		|| data->number <= 0 || data->time_to_die <= 0
+		|| data->sleeping_time <= 0)
 		return (printf("Error\nAn argument is not valid\n"));
 	if (allocate_memory(data))
 		return (printf("Error\nMemory Allocaion faild\n"));

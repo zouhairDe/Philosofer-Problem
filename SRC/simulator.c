@@ -42,13 +42,16 @@ void	*keep_track(void *d)
 	while (1)
 	{
 		if (!eating_done(data))
-			return (ft_done(&data->philos[i], 0), NULL);
+			return (pthread_exit(NULL), NULL);
 		pthread_mutex_lock(&data->lock);
 		if (ft_round(data->philos[i].last_meal) + data->time_to_die
 			< ft_round(get_time()) && data->philos[i].eating == false)
 		{
+			pthread_mutex_lock(&data->end);
 			data->over = true;
 			data->philos[i].dead = true;
+			printf("%.0f %d died\n", get_time() - data->start, i + 1);
+			pthread_mutex_lock(&data->end);
 			pthread_mutex_unlock(&data->lock);
 			break ;
 		}
@@ -57,27 +60,32 @@ void	*keep_track(void *d)
 		if (i == data->number)
 			i = 0;
 	}
-	return (ft_done(&data->philos[i], 1), pthread_exit(NULL), NULL);
+	return (pthread_exit(NULL), NULL);
 }
 
 void	*routine(void *p)
 {
 	t_philo	*philo;
+	bool	dead;
 
 	philo = (t_philo *)p;
 	if (philo->id % 2 == 0 || (philo->id == philo->data->number
 			&& philo->data->number % 2))
 		usleep(100);
-	while (philo->dead == false)
+	dead = philo->dead;
+	while (dead == false)
 	{
-		if (philo->data->number == 1)
+		if (philo->data->number > 1)
 		{
+			eat(philo);
+			ft_sleep(philo);
 			think(philo);
-			continue ;
 		}
-		eat(philo);
-		ft_sleep(philo);
-		think(philo);
+		else
+			think(philo);
+		pthread_mutex_lock(&philo->data->end);
+		dead = philo->dead;
+		pthread_mutex_unlock(&philo->data->end);
 	}
 	pthread_exit(NULL);
 	return (NULL);
