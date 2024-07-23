@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:01:20 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 02:46:04 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/23 03:03:12 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	*check_death(void *philo)
 			sem_wait(ph->data->end);
 			data->over = true;
 			data->philos[i].dead = true;
+			sem_wait(ph->data->write);
 			printf("%.0f %d died\n", get_time() - ph->data->start, i + 1);
 			sem_post(ph->data->end);
 			sem_post(ph->data->lock);

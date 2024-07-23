@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 01:38:15 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 02:10:03 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/23 03:01:59 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	print_logs(t_philo *philo, char *did)
 {
+	// sem_wait(ph->data->end);
 	sem_wait(philo->data->write);
-	if (!philo->data->over)
+	if (!philo->data->over || !philo->dead)
 	{
 		printf("%ld %d %s\n", get_time() - philo->data->start, philo->id, did);
 		sem_post(philo->data->write);

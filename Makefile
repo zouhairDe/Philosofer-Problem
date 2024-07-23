@@ -6,7 +6,7 @@ BOLD = \033[1m
 RESET = \033[0m
 
 CC=CC
-FLAGS=-Wall -Werror -Wextra -g -fsanitize=thread
+FLAGS=-Wall -Werror -Wextra# -g -fsanitize=address
 
 NAME=philo/philo
 SRC_FOLDER=philo/src/
