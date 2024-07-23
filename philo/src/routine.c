@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:54:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/21 05:46:51 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/21 23:40:06 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,14 @@ void	spend_time(int duration, t_philo *philo)
 
 void	ft_sleep(t_philo *philo)
 {
-	if (philo->meals == philo->data->meals || philo->data->over == true)
+	int		meals;
+	int		over;
+
+	pthread_mutex_lock(&philo->data->lock);
+	meals = philo->data->meals;
+	over = philo->data->over;
+	pthread_mutex_unlock(&philo->data->lock);
+	if (philo->meals == meals || over == true)
 		return ;
 	if (philo->data->number == 1)
 		return ;
@@ -59,14 +66,6 @@ void	ft_sleep(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->lock);
 	print_logs(philo, "is sleeping");
 	spend_time(philo->data->sleeping_time, philo);
-}
-
-void	think(t_philo *philo)
-{
-	if (philo->meals == philo->data->meals || philo->data->over == true)
-		return ;
-	if (philo->data->number == 1)
-		return ;
 	print_logs(philo, "is thinking");
 }
 
@@ -81,8 +80,6 @@ void	eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->lock);
 	if (philo->meals == meals || over == true)
 		pthread_exit(NULL);
-	if (philo->id % 2 == 0)
-		usleep(100);
 	pthread_mutex_lock(philo->l_fork);
 	print_logs(philo, "has taken a fork");
 	pthread_mutex_lock(philo->r_fork);

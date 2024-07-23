@@ -51,7 +51,7 @@ void	*keep_track(void *d)
 			data->over = true;
 			data->philos[i].dead = true;
 			printf("%.0f %d died\n", get_time() - data->start, i + 1);
-			pthread_mutex_lock(&data->end);
+			pthread_mutex_unlock(&data->end);
 			pthread_mutex_unlock(&data->lock);
 			break ;
 		}
@@ -79,10 +79,7 @@ void	*routine(void *p)
 		{
 			eat(philo);
 			ft_sleep(philo);
-			think(philo);
 		}
-		else
-			think(philo);
 		pthread_mutex_lock(&philo->data->end);
 		dead = philo->dead;
 		pthread_mutex_unlock(&philo->data->end);
