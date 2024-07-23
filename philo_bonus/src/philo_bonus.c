@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 01:23:19 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 02:04:18 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/23 03:46:31 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,9 @@ int main(int ac, char **av)
 		return (1);
 	if (simulator(&data))
 		return (1);
+	sem_close(data.forks);
+	sem_close(data.write);
+	sem_close(data.lock);
+	sem_close(data.end);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:01:20 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 03:03:12 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/23 05:40:45 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,18 @@ int	simulate(t_data *data)
 		}
 	}
 	if (i >= 0)
-	{
 		while (--i >= 0)
 			kill(data->philos[i].pid, SIGKILL);
-		return (0);
-	}
+	return (0);
+}
+
+void	killall(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->number)
+		kill(data->philos[i].pid, SIGKILL);
 }
 
 void	*check_death(void *philo)
@@ -51,19 +58,20 @@ void	*check_death(void *philo)
 	{
 		sem_wait(ph->data->lock);
 		if (ft_round(data->ph[i].last_meal) + data->time_to_die
-			< ft_round(get_time()))
+			< ft_round(get_time()) && !ph->philos[i].eating)
 		{
 			sem_wait(ph->data->end);
 			data->over = true;
 			data->philos[i].dead = true;
 			sem_wait(ph->data->write);
 			printf("%.0f %d died\n", get_time() - ph->data->start, i + 1);
+			killall(ph->data);
 			sem_post(ph->data->end);
 			sem_post(ph->data->lock);
 			return (NULL);
 		}
 		sem_post(ph->data->lock);
-		usleep(1000);
+		usleep(100);
 	}
 }
 

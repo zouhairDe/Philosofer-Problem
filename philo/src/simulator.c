@@ -42,7 +42,7 @@ void	*keep_track(void *d)
 	while (1)
 	{
 		if (!eating_done(data))
-			return (pthread_exit(NULL), NULL);
+			return (pthread_exit(NULL), NULL);//maybe khasni data->over = true; hna
 		pthread_mutex_lock(&data->lock);
 		if (ft_round(data->philos[i].last_meal) + data->time_to_die
 			< ft_round(get_time()) && data->philos[i].eating == false)
