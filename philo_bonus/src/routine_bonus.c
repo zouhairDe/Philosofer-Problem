@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:28:10 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 05:35:48 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/27 00:53:52 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	ft_sleep(t_philo *philo)
 		exit(0);
 	if (philo->data->meals == philo->data->meals)
 		exit(0);
-	print_logs(&data->philos[i], "is sleeping");
+	print_logs(philo, "is sleeping");
 	time = get_time();
 	spent_time(philo->data->sleeping_time, philo);
-	print_logs(&data->philos[i], "is thinking");
+	print_logs(philo, "is thinking");
 }
 
 void	eat(t_philo *philo)

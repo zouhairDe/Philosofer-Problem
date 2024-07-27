@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PHILO_BONUS.C                                      :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 01:18:38 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 01:23:07 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/27 00:53:20 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <pthread.h>
-#include <sys/time.h>
-#include <semaphore.h>
-#include <signal.h>
-#include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <pthread.h>
+# include <sys/time.h>
+# include <semaphore.h>
+# include <signal.h>
+# include <fcntl.h>
 # include <stdbool.h>
 
 struct	s_data;
@@ -33,6 +33,8 @@ typedef struct s_philo
 	bool			dead;
 	bool			eating;
 	pid_t			pid;
+	pthread_t		thread;
+	struct s_data	*data;
 }					t_philo;
 
 typedef struct s_data

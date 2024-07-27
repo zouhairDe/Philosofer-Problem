@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 01:23:19 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 03:46:31 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/27 00:54:33 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int main(int ac, char **av)
 	t_data	data;
 
 	if (ac > 6 || ac < 5)
-		return (printf("Error:\nIncorrect arguments nnumber\n"));
+		return (printf("Error:\nIncorrect arguments number\n"));
 	if (init(&data, ac, av))
 		return (1);
 	if (simulator(&data))

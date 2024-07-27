@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 01:38:15 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 03:01:59 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/27 00:58:34 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,9 @@
 
 void	print_logs(t_philo *philo, char *did)
 {
-	// sem_wait(ph->data->end);
 	sem_wait(philo->data->write);
 	if (!philo->data->over || !philo->dead)
-	{
-		printf("%ld %d %s\n", get_time() - philo->data->start, philo->id, did);
-		sem_post(philo->data->write);
-	}
+		printf("%ld %d %s\n", ft_round(get_time()) - philo->data->start, philo->id, did);
 	sem_post(philo->data->write);
 }
 
@@ -35,7 +31,7 @@ int	allocate_philos(t_data *data)
 	while (i < data->number)
 	{
 		data->philos[i].id = i + 1;
-		data->philos[i].eat_count = 0;
+		data->philos[i].meals = 0;
 		data->philos[i].data = data;
 		data->philos[i].last_eat = get_time();
 		i++;
@@ -49,22 +45,22 @@ int	init(t_data *data, int ac, char **av)
 
 	data->number = ft_atoi(av[1]);
 	data->time_to_die = ft_atoi(av[2]);
-	data->time_to_eat = ft_atoi(av[3]);
-	data->time_to_sleep = ft_atoi(av[4]);
+	data->eating_time = ft_atoi(av[3]);
+	data->sleeping_time = ft_atoi(av[4]);
 	if (ac == 6)
-		data->must_eat = ft_atoi(av[5]);
+		data->meals = ft_atoi(av[5]);
 	else
-		data->must_eat = -1;
-	if (data->number < 1 || data->time_to_die < 1 || data->time_to_eat < 1
-		|| data->time_to_sleep < 1 || (ac == 6 && data->must_eat < -1))
+		data->meals = -1;
+	if (data->number < 1 || data->time_to_die < 1 || data->eating_time < 1
+		|| data->sleeping_time < 1 || (ac == 6 && data->meals < 0))
 		return (printf("Error:\nIncorrect arguments\n"));
 	sem_unlink("lock");
-	sem_unlink("read");
+	sem_unlink("write");
 	sem_unlink("end");
 	sem_unlink("forks");
 	data->forks = sem_open("forks", O_CREAT, 0700, data->number);
 	data->lock = sem_open("lock", O_CREAT, 0700, 1);
-	data->read = sem_open("read", O_CREAT, 0700, 1);
+	data->write = sem_open("write", O_CREAT, 0700, 1);
 	data->end = sem_open("end", O_CREAT, 0700, 1);
 	if (allocate_philos(data))
 		return (1);
