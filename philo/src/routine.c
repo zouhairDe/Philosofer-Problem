@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:54:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 05:30:48 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/28 03:27:59 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	spend_time(int duration, t_philo *philo)
 	go = get_time();
 	while (get_time() - go < (double)duration)
 	{
-		usleep(100);
 		pthread_mutex_lock(&philo->data->lock);
 		if (philo->data->over == true)
 		{
@@ -87,10 +86,10 @@ void	eat(t_philo *philo)
 	print_logs(philo, "is eating");
 	pthread_mutex_lock(&philo->data->lock);
 	philo->eating = true;
+	philo->last_meal = ft_round(get_time());
 	pthread_mutex_unlock(&philo->data->lock);
 	spend_time(philo->data->eating_time, philo);
 	pthread_mutex_lock(&philo->data->lock);
-	philo->last_meal = ft_round(get_time());
 	philo->meals++;
 	pthread_mutex_unlock(&philo->data->lock);
 	pthread_mutex_unlock(philo->l_fork);

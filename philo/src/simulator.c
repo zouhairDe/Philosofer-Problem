@@ -71,7 +71,7 @@ void	*routine(void *p)
 	philo = (t_philo *)p;
 	if (philo->id % 2 == 0 || (philo->id == philo->data->number
 			&& philo->data->number % 2))
-		usleep(100);
+		usleep(500);
 	dead = philo->dead;
 	while (dead == false)
 	{
