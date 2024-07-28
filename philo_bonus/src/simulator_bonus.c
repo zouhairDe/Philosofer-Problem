@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:01:20 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/28 03:53:03 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/28 05:31:05 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@ void	killall(t_data *data)
 {
 	int	i;
 
-	i = -1;
-	while (++i < data->number)
-		kill(data->philos[i].pid, SIGKILL);
+	i = 0;
+	while (i < data->number)
+	{
+		kill(data->philos[i].pid, SIGTERM);
+		i++;
+	}
 }
 
 void	*check_death(void *philo)
@@ -37,9 +40,9 @@ void	*check_death(void *philo)
 			ph->dead = true;
 			sem_wait(ph->data->write);
 			printf("%.0f %d died\n", get_time() - ph->data->start, ph->id);
-			killall(ph->data);
 			sem_post(ph->data->end);
 			sem_post(ph->data->lock);
+			exit(0);
 			return (NULL);
 		}
 		sem_post(ph->data->lock);
@@ -54,6 +57,8 @@ void	wait_childes(t_data *data)
 	i = -1;
 	while (++i < data->number)
 		waitpid(-1, &status, 0);
+	printf("All philos are done eating\n");
+	killall(data);
 }
 
 void	think_abit(t_philo *philo)
@@ -61,8 +66,8 @@ void	think_abit(t_philo *philo)
 	sem_wait(philo->data->write);
 	printf("%ld %d is thinking\n", ft_round(get_time())
 		- philo->data->start, philo->id);
-	usleep(100);
 	sem_post(philo->data->write);
+	usleep(100);
 }
 
 int	simulate(t_data *data)
@@ -82,11 +87,15 @@ int	simulate(t_data *data)
 			pthread_create(&data->philos[i].thread, NULL, &check_death, &data->philos[i]);
 			while (1)
 			{
-				if (data->philos[i].id % 2 != 0)
+				if (!(data->philos[i].id % 2) ||
+					(data->philos[i].id % 2 == data->number && data->number % 2))
 					think_abit(&data->philos[i]);
+				if (data->philos[i].dead || data->over || data->philos[i].meals == data->meals)
+					exit(0);
 				eat(&data->philos[i]);
 				ft_sleep(&data->philos[i]);
 			}
+			pthread_detach(data->philos[i].thread);
 			exit(0);
 		}
 	}

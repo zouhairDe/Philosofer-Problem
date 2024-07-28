@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 01:18:38 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/28 03:46:58 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/28 05:20:25 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ void	eat(t_philo *philo);
 void	ft_sleep(t_philo *philo);
 void	print_logs(t_philo *philo, char *did);
 double	get_time(void);
-void	*monitor(void *data);
+
 #endif

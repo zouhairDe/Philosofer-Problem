@@ -44,6 +44,7 @@ void	*keep_track(void *d)
 		if (!eating_done(data))
 			return (pthread_exit(NULL), NULL);//maybe khasni data->over = true; hna
 		pthread_mutex_lock(&data->lock);
+		pthread_mutex_lock(&data->read);
 		if (ft_round(data->philos[i].last_meal) + data->time_to_die
 			< ft_round(get_time()) && data->philos[i].eating == false)
 		{
@@ -52,15 +53,17 @@ void	*keep_track(void *d)
 			data->philos[i].dead = true;
 			printf("%.0f %d died\n", get_time() - data->start, i + 1);
 			pthread_mutex_unlock(&data->end);
+			pthread_mutex_unlock(&data->read);
 			pthread_mutex_unlock(&data->lock);
 			break ;
 		}
+		pthread_mutex_unlock(&data->read);
 		pthread_mutex_unlock(&data->lock);
 		i++;
 		if (i == data->number)
 			i = 0;
 	}
-	return (pthread_exit(NULL), NULL);
+	return (pthread_exit(NULL), NULL);//forbidden
 }
 
 void	*routine(void *p)
@@ -108,7 +111,7 @@ int	simulator(t_data *data)
 	i = 0;
 	while (i < data->number)
 	{
-		if (pthread_detach(data->philos[i].t))
+		if (pthread_join(data->philos[i].t, NULL))
 			return (-1);
 		i++;
 	}

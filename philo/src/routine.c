@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 22:54:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/28 03:27:59 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/28 04:28:38 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 void	print_logs(t_philo *philo, char *did)
 {
 	double	timestamp;
-	int		meals;
-	int		over;
 
 	pthread_mutex_lock(&philo->data->lock);
-	meals = philo->meals;
-	over = philo->data->over;
-	pthread_mutex_unlock(&philo->data->lock);
-	if (philo->data->meals == meals || over == true)
-		return ;
 	pthread_mutex_lock(&philo->data->read);
+	if (philo->data->meals == philo->meals || philo->data->over == true)
+	{
+		pthread_mutex_unlock(&philo->data->read);
+		pthread_mutex_unlock(&philo->data->lock);
+		return ;
+	}
 	timestamp = get_time() - philo->data->start;
 	printf("%.0f %d %s\n", timestamp, philo->id, did);
 	pthread_mutex_unlock(&philo->data->read);
+	pthread_mutex_unlock(&philo->data->lock);
 }
 
 void	spend_time(int duration, t_philo *philo)

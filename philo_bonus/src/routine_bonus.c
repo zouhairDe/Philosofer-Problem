@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:28:10 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/28 03:46:33 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/28 04:45:01 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_sleep(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
-	if (philo->data->over || philo->dead || philo->data->number == 1)
+	if (philo->data->over || philo->dead)
 		exit(0);
 	if (philo->meals == philo->data->meals)
 		exit(0);
