@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 01:38:15 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/27 00:58:34 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/28 03:44:11 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ int	allocate_philos(t_data *data)
 
 int	init(t_data *data, int ac, char **av)
 {
-	int	i;
-
 	data->number = ft_atoi(av[1]);
 	data->time_to_die = ft_atoi(av[2]);
 	data->eating_time = ft_atoi(av[3]);

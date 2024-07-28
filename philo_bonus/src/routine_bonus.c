@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:28:10 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/27 00:53:52 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/28 03:46:33 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ void	ft_sleep(t_philo *philo)
 
 	if (philo->data->over || philo->dead || philo->data->number == 1)
 		exit(0);
-	if (philo->data->meals == philo->data->meals)
+	if (philo->meals == philo->data->meals)
 		exit(0);
 	print_logs(philo, "is sleeping");
 	time = get_time();
-	spent_time(philo->data->sleeping_time, philo);
+	spend_time(philo->data->sleeping_time, philo);
 	print_logs(philo, "is thinking");
 }
 
@@ -48,7 +48,7 @@ void	eat(t_philo *philo)
 {
 	if (philo->data->over || philo->dead || philo->data->number == 1)
 		exit(0);
-	if (philo->data->meals == philo->data->meals)
+	if (philo->meals == philo->data->meals)
 		exit(0);
 	sem_wait(philo->data->forks);
 	print_logs(philo, "has taken a fork");
@@ -57,10 +57,10 @@ void	eat(t_philo *philo)
 	print_logs(philo, "is eating");
 	sem_wait(philo->data->lock);
 	philo->eating = true;
-	sem_post(philo->data->lock);
-	spent_time(philo->data->eating_time, philo);
-	sem_wait(philo->data->lock);
 	philo->last_eat = get_time();
+	sem_post(philo->data->lock);
+	spend_time(philo->data->eating_time, philo);
+	sem_wait(philo->data->lock);
 	philo->meals++;
 	sem_post(philo->data->lock);
 	sem_post(philo->data->forks);
