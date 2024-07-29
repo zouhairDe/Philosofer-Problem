@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:01:20 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/28 05:31:05 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/29 03:21:03 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@ void	killall(t_data *data)
 	int	i;
 
 	i = 0;
+	printf("FINISHEDDDDDD\n");
 	while (i < data->number)
 	{
 		kill(data->philos[i].pid, SIGTERM);
 		i++;
 	}
+	return ;
 }
 
 void	*check_death(void *philo)
@@ -56,9 +58,11 @@ void	wait_childes(t_data *data)
 
 	i = -1;
 	while (++i < data->number)
-		waitpid(-1, &status, 0);
-	printf("All philos are done eating\n");
+		waitpid(data->philos[i].pid, &status, 0);
+				printf("FINISHEDDDDDD\n");
+		
 	killall(data);
+	return ;
 }
 
 void	think_abit(t_philo *philo)
@@ -66,8 +70,8 @@ void	think_abit(t_philo *philo)
 	sem_wait(philo->data->write);
 	printf("%ld %d is thinking\n", ft_round(get_time())
 		- philo->data->start, philo->id);
-	sem_post(philo->data->write);
 	usleep(100);
+	sem_post(philo->data->write);
 }
 
 int	simulate(t_data *data)
@@ -85,20 +89,25 @@ int	simulate(t_data *data)
 		{
 			data->philos[i].last_eat = get_time();
 			pthread_create(&data->philos[i].thread, NULL, &check_death, &data->philos[i]);
-			while (1)
+			while (data->over == false)
 			{
 				if (!(data->philos[i].id % 2) ||
-					(data->philos[i].id % 2 == data->number && data->number % 2))
+					(data->philos[i].id % 2 && data->number % 2))
 					think_abit(&data->philos[i]);
+				sem_wait(data->lock);
 				if (data->philos[i].dead || data->over || data->philos[i].meals == data->meals)
+				{
+					sem_post(data->lock);
 					exit(0);
+				}
+				sem_post(data->lock);
 				eat(&data->philos[i]);
 				ft_sleep(&data->philos[i]);
 			}
 			pthread_detach(data->philos[i].thread);
-			exit(0);
 		}
 	}
 	wait_childes(data);
 	return (0);
 }
+ 
