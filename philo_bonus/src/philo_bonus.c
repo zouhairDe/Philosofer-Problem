@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 01:23:19 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/29 02:58:50 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/30 02:46:07 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,10 @@ int main(int ac, char **av)
 	if (init(&data, ac, av))
 		return (1);
 	if (simulate(&data))
-		return (1);
-	printf("FINISHEDDDDDD\n");
-	sem_close(data.forks);
-	sem_close(data.write);
-	sem_close(data.lock);
-	sem_close(data.end);
-	sem_unlink("forks");
-	sem_unlink("write");
-	sem_unlink("lock");
-	sem_unlink("end");
-	free(data.philos);
+    {
+        cleanup(&data);
+        return (1);
+    }
+    cleanup(&data);
 	return (0);
 }

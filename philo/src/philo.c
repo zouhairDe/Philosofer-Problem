@@ -6,11 +6,11 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:52:30 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/21 23:39:13 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/30 02:13:47 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "philo.h"
 
 int	main(int ac, char **av)
 {

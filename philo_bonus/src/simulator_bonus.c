@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:01:20 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/29 03:21:03 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/30 02:46:32 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	killall(t_data *data)
 	int	i;
 
 	i = 0;
-	printf("FINISHEDDDDDD\n");
 	while (i < data->number)
 	{
 		kill(data->philos[i].pid, SIGTERM);
@@ -26,29 +25,27 @@ void	killall(t_data *data)
 	return ;
 }
 
-void	*check_death(void *philo)
+void *check_death(void *philo)
 {
-	t_philo	*ph;
-
-	ph = (t_philo *)philo;
-	while (1)
-	{
-		sem_wait(ph->data->lock);
-		if (ft_round(ph->last_eat) + ph->data->time_to_die
-			<= ft_round(get_time()) && !ph->eating)
-		{
-			sem_wait(ph->data->end);
-			ph->data->over = true;
-			ph->dead = true;
-			sem_wait(ph->data->write);
-			printf("%.0f %d died\n", get_time() - ph->data->start, ph->id);
-			sem_post(ph->data->end);
-			sem_post(ph->data->lock);
-			exit(0);
-			return (NULL);
-		}
-		sem_post(ph->data->lock);
-	}
+    t_philo *ph = (t_philo *)philo;
+    while (1)
+    {
+        sem_wait(ph->data->lock);
+        if (ft_round(ph->last_eat) + ph->data->time_to_die < ft_round(get_time()) && !ph->eating)
+        {
+            sem_wait(ph->data->end);
+            ph->data->over = true;
+            ph->dead = true;
+            printf("%.0f %d died\n", get_time() - ph->data->start, ph->id);
+            sem_post(ph->data->write);
+            killall(ph->data);
+            sem_post(ph->data->end);
+            sem_post(ph->data->lock);
+            return NULL;
+        }
+        sem_post(ph->data->lock);
+        usleep(100);
+    }
 }
 
 void	wait_childes(t_data *data)
@@ -59,8 +56,6 @@ void	wait_childes(t_data *data)
 	i = -1;
 	while (++i < data->number)
 		waitpid(data->philos[i].pid, &status, 0);
-				printf("FINISHEDDDDDD\n");
-		
 	killall(data);
 	return ;
 }
@@ -74,40 +69,31 @@ void	think_abit(t_philo *philo)
 	sem_post(philo->data->write);
 }
 
-int	simulate(t_data *data)
+int simulate(t_data *data)
 {
-	int	i;
+    int i;
 
-	i = -1;
-	data->start = get_time();
-	while (++i < data->number)
-	{
-		data->philos[i].pid = fork();
-		if (data->philos[i].pid < 0)
-			break ;
-		else if (data->philos[i].pid == 0)
-		{
-			data->philos[i].last_eat = get_time();
-			pthread_create(&data->philos[i].thread, NULL, &check_death, &data->philos[i]);
-			while (data->over == false)
-			{
-				if (!(data->philos[i].id % 2) ||
-					(data->philos[i].id % 2 && data->number % 2))
-					think_abit(&data->philos[i]);
-				sem_wait(data->lock);
-				if (data->philos[i].dead || data->over || data->philos[i].meals == data->meals)
-				{
-					sem_post(data->lock);
-					exit(0);
-				}
-				sem_post(data->lock);
-				eat(&data->philos[i]);
-				ft_sleep(&data->philos[i]);
-			}
-			pthread_detach(data->philos[i].thread);
-		}
-	}
-	wait_childes(data);
-	return (0);
-}
+    i = -1;
+    data->start = get_time();
+    while (++i < data->number)
+    {
+        data->philos[i].pid = fork();
+        if (data->philos[i].pid < 0)
+            return (1);
+        else if (data->philos[i].pid == 0)
+        {
+            data->philos[i].last_eat = get_time();
+            if (pthread_create(&data->philos[i].thread, NULL, &check_death, &data->philos[i]) != 0)
+                exit(1);
+            pthread_detach(data->philos[i].thread);
+            while (1)
+            {
+                eat(&data->philos[i]);
+                ft_sleep(&data->philos[i]);
+            }
+        }
+    }
+    wait_childes(data);
+    return (0);
+}	
  
