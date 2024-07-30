@@ -28,7 +28,12 @@ int	eating_done(t_data *data)
 		i++;
 	}
 	if (finishers == data->number)
+	{
+		pthread_mutex_lock(&data->end);
+		data->over = true;
+		pthread_mutex_unlock(&data->end);
 		return (0);
+	}
 	return (1);
 }
 
@@ -42,7 +47,7 @@ void	*keep_track(void *d)
 	while (1)
 	{
 		if (!eating_done(data))
-			return (pthread_exit(NULL), NULL);//maybe khasni data->over = true; hna
+			return (NULL);//maybe khasni data->over = true; hna
 		pthread_mutex_lock(&data->lock);
 		pthread_mutex_lock(&data->read);
 		if (ft_round(data->philos[i].last_meal) + data->time_to_die
@@ -63,7 +68,7 @@ void	*keep_track(void *d)
 		if (i == data->number)
 			i = 0;
 	}
-	return (pthread_exit(NULL), NULL);//forbidden
+	return (NULL);//forbidden
 }
 
 void	*routine(void *p)
@@ -75,7 +80,7 @@ void	*routine(void *p)
 	if (philo->id % 2 == 0 || (philo->id == philo->data->number
 			&& philo->data->number % 2))
 		usleep(500);
-	dead = philo->dead;
+	dead = philo->data->over;
 	while (dead == false)
 	{
 		if (philo->data->number > 1)
@@ -84,10 +89,9 @@ void	*routine(void *p)
 			ft_sleep(philo);
 		}
 		pthread_mutex_lock(&philo->data->end);
-		dead = philo->dead;
+		dead = philo->data->over;
 		pthread_mutex_unlock(&philo->data->end);
 	}
-	pthread_exit(NULL);
 	return (NULL);
 }
 
@@ -111,7 +115,7 @@ int	simulator(t_data *data)
 	i = 0;
 	while (i < data->number)
 	{
-		if (pthread_join(data->philos[i].t, NULL))
+		if (pthread_detach(data->philos[i].t))
 			return (-1);
 		i++;
 	}
