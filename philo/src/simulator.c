@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 21:25:40 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 21:26:39 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/08/01 08:01:27 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,24 @@ int	eating_done(t_data *data)
 {
 	int	i;
 	int	finishers;
+	int	meals;
 
 	i = 0;
 	finishers = 0;
 	while (i < data->number)
 	{
 		pthread_mutex_lock(&data->lock);
-		if (data->philos[i].meals == data->meals)
-			finishers += 1;
+		meals = data->philos[i].meals;
 		pthread_mutex_unlock(&data->lock);
+		if (meals == data->meals)
+			finishers += 1;
 		i++;
 	}
 	if (finishers == data->number)
 	{
-		pthread_mutex_lock(&data->end);
+		pthread_mutex_lock(&data->lock);
 		data->over = true;
-		pthread_mutex_unlock(&data->end);
+		pthread_mutex_unlock(&data->lock);
 		return (0);
 	}
 	return (1);
@@ -47,20 +49,14 @@ void	*keep_track(void *d)
 	while (1)
 	{
 		if (!eating_done(data))
-			return (NULL);//maybe khasni data->over = true; hna
+			return (NULL);
 		pthread_mutex_lock(&data->lock);
 		pthread_mutex_lock(&data->read);
 		if (ft_round(data->philos[i].last_meal) + data->time_to_die
-			< ft_round(get_time()) && data->philos[i].eating == false)
+			<= ft_round(get_time()) && data->philos[i].eating == false)
 		{
-			pthread_mutex_lock(&data->end);
-			data->over = true;
-			data->philos[i].dead = true;
-			printf("%.0f %d died\n", get_time() - data->start, i + 1);
-			pthread_mutex_unlock(&data->end);
-			pthread_mutex_unlock(&data->read);
-			pthread_mutex_unlock(&data->lock);
-			break ;
+			set_death(data, &data->philos[i]);
+			return (NULL);
 		}
 		pthread_mutex_unlock(&data->read);
 		pthread_mutex_unlock(&data->lock);
@@ -68,7 +64,13 @@ void	*keep_track(void *d)
 		if (i == data->number)
 			i = 0;
 	}
-	return (NULL);//forbidden
+	return (NULL);
+}
+
+void	think_abit(t_philo *philo)
+{
+	print_logs(philo, "is thinking");
+	usleep(200);
 }
 
 void	*routine(void *p)
@@ -77,20 +79,17 @@ void	*routine(void *p)
 	bool	dead;
 
 	philo = (t_philo *)p;
-	if (philo->id % 2 == 0 || (philo->id == philo->data->number
-			&& philo->data->number % 2))
-		usleep(500);
+	if (philo->id % 2 == 0 || ((philo->id == philo->data->number
+			&& philo->data->number % 2) && philo->data->number != 1))
+		think_abit(philo);
 	dead = philo->data->over;
 	while (dead == false)
 	{
-		if (philo->data->number > 1)
-		{
-			eat(philo);
-			ft_sleep(philo);
-		}
-		pthread_mutex_lock(&philo->data->end);
+		eat(philo);
+		ft_sleep(philo);
+		pthread_mutex_lock(&philo->data->lock);
 		dead = philo->data->over;
-		pthread_mutex_unlock(&philo->data->end);
+		pthread_mutex_unlock(&philo->data->lock);
 	}
 	return (NULL);
 }

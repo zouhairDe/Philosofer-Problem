@@ -6,11 +6,23 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 19:24:09 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/30 02:13:47 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/08/01 08:27:00 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	set_death(t_data *data, t_philo *philo)
+{
+	pthread_mutex_lock(&data->end);
+	data->over = true;
+	philo->dead = true;
+	printf("%.0f %d died\n", get_time() - data->start, philo->id);
+	pthread_mutex_unlock(&data->end);
+	pthread_mutex_unlock(&data->read);
+	pthread_mutex_unlock(&data->lock);
+	return ;
+}
 
 void	init_forks(t_data *data)
 {
@@ -49,11 +61,10 @@ int	allocate_memory(t_data *data)
 		data->philos[i].last_meal = ft_round(get_time());
 		data->philos[i].meals = 0;
 		if (pthread_mutex_init(&data->forks[i], NULL))
-			return (-1);
+			return (free(data->forks), free(data->philos), -1);
 	}
-	if (pthread_mutex_init(&data->read, NULL)
-		|| pthread_mutex_init(&data->lock, NULL)
-		|| pthread_mutex_init(&data->end, NULL))
+	if (pthread_mutex_init(&data->read, NULL) || pthread_mutex_init(&data->lock
+			, NULL) || pthread_mutex_init(&data->end, NULL))
 		return (-1);
 	return (0);
 }
